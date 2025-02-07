@@ -66,20 +66,24 @@ with tab2:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric('Receita', formata_numero(dados_processados['receita']))
+        st.metric('Quantidade de vendas', formata_numero(dados_processados['quantidade_de_vendas']))
+        st.plotly_chart(graficos['fig_quantidade_vendas_estados'], use_container_width=True)
+        # st.plotly_chart(graficos['fig_quantidade_vendas_mensal'], use_container_width=True)
 
     with col2:
-        st.metric('Quantidade de vendas', formata_numero(dados_processados['quantidade_de_vendas']))
+        st.metric('Receita', formata_numero(dados_processados['receita']))
+        st.plotly_chart(graficos['fig_quantidade_vendas_categorias'], use_container_width=True)
 
 with tab3:
-    input_top_vendedores = st.number_input('Top vendedores',2,10,5)
-    graficos = cria_graficos(dados_processados, input=input_top_vendedores)
+    input_top_vendedores = st.number_input('Top vendedores', 2, 10, 5)
+    graficos_vendedores = cria_graficos(dados_processados, input_top_vendedores=input_top_vendedores)
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.metric('Receita', formata_numero(dados_processados['receita']))
-        st.plotly_chart(graficos['fig_top_vendedores_receita'], use_container_width=True)
+        st.plotly_chart(graficos_vendedores['fig_top_vendedores_receita'], use_container_width=True)
+
     with col2:
         st.metric('Quantidade de vendas', formata_numero(dados_processados['quantidade_de_vendas']))
-        st.plotly_chart(graficos['fig_top_vendedores_vendas'], use_container_width=True)
+        st.plotly_chart(graficos_vendedores['fig_top_vendedores_vendas'], use_container_width=True)
