@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
-from src.utils import formata_numero
-from src.data_processing import processa_dados
-from src.plots import cria_graficos
+from utils import formata_numero
+from data_processing import processa_dados
+from plots import cria_graficos
 
 #...
 
-dados = pd.read_parquet('produtos.parquet')
+dados = pd.read_parquet('../data/produtos.parquet')
 dados_processados = processa_dados(dados)
 graficos = cria_graficos(dados_processados)
 
