@@ -28,7 +28,7 @@ def carrega_dados(df, caminho_arquivo):
 
 def executa_etl():
     url = 'https://labdados.com/produtos'
-    caminho_arquivo = 'produtos.parquet'
+    caminho_arquivo = '../data/produtos.parquet'
 
     dados = extrai_dados(url)
     if dados is not None:
@@ -38,4 +38,3 @@ def executa_etl():
 
 if __name__ == '__main__':
     executa_etl()
-

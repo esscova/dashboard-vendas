@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-from utils import formata_numero
-from data_processing import processa_dados
-from plots import cria_graficos
+from src.utils import formata_numero
+from src.data_processing import processa_dados
+from src.plots import cria_graficos
 
 #...
 
