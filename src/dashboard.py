@@ -1,24 +1,53 @@
 import streamlit as st
 import pandas as pd
 from utils import formata_numero
-from data_processing import processa_dados
+from data_processing import processa_dados, aplica_filtros
 from plots import cria_graficos
 
 #...
-
-dados = pd.read_parquet('../data/produtos.parquet')
-dados_processados = processa_dados(dados)
-graficos = cria_graficos(dados_processados)
-
-# streamlit
 st.set_page_config(
     layout="wide",
     page_title='Dashboard de vendas',
     page_icon=':bar_chart:'
     )
+#...
+@st.cache_data
+def carrega_dados(caminho):
+    return pd.read_parquet(caminho)
 
+dados = carrega_dados('../data/produtos.parquet')
+
+# SIDEBAR
+
+# titulo 
+st.sidebar.title('Filtros')
+regiao = st.sidebar.selectbox(
+    'Selecione uma região',
+    options=['Norte', 'Nordeste', 'Sudeste', 'Sul', 'Centro-Oeste', 'Brasil'], 
+    index=5
+)
+
+# filtro anos
+filtro_anos = st.sidebar.checkbox('Dados de todo o período', value=True)
+if filtro_anos:
+    ano = None
+else:
+    ano = st.sidebar.slider('Ano', 2020, 2023)
+    
+# filtro vendedores
+filtro_vendedores = st.sidebar.multiselect(
+    'Vendedores',
+    dados['Vendedor'].unique(),
+    default=dados['Vendedor'].unique()
+)
+
+# aplicando filtros
+dados_filtrados = aplica_filtros(dados, regiao, ano, filtro_vendedores)
+dados_processados = processa_dados(dados_filtrados)
+graficos = cria_graficos(dados_processados)
+
+# MAIN
 st.title("DASHBOARD DE VENDAS :shopping_trolley:")
-
 tab1, tab2, tab3 = st.tabs(["Receita", "Quantidade de vendas", "Vendedores"])
 
 with tab1:

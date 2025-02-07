@@ -30,3 +30,15 @@ def processa_dados(df):
         'receita_categorias': receita_categorias,
         'receita_vendedores': receita_vendedores
     }
+
+def aplica_filtros(df, regiao, ano, vendedores):
+    if regiao != 'Brasil':
+        df = df[df['Local da compra'].str.contains(regiao, case=False)]
+
+    if ano is not None:
+        df = df[df['Data da Compra'].dt.year == ano]
+
+    if vendedores:
+        df = df[df['Vendedor'].isin(vendedores)]
+
+    return df
