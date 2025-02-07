@@ -49,7 +49,7 @@ def cria_graficos(dados_processados, input=5):
     )
     fig_receita_categorias.update_layout(yaxis_title='Receita')
 
-    fig_receita_vendedores = px.bar(
+    fig_top_vendedores_receita = px.bar(
         receita_vendedores[['sum']].sort_values(by='sum', ascending=False).head(input),
         x='sum',
         y=receita_vendedores[['sum']].sort_values(by='sum', ascending=False).head(input).index,
@@ -57,12 +57,26 @@ def cria_graficos(dados_processados, input=5):
         text_auto=True,
         template='plotly_white',
     )
-    fig_receita_vendedores.update_layout(yaxis_title='Receita')
+    fig_top_vendedores_receita.update_layout(yaxis_title='Vendedor', xaxis_title='Receita')
+
+    fig_top_vendedores_vendas  = px.bar(
+        receita_vendedores[['count']].sort_values(by='count', ascending=False).head(input),
+        x='count',
+        y=receita_vendedores[['count']].sort_values(by='count', ascending=False).head(input).index,
+        title='Total de vendas por vendedor',
+        text_auto=True,
+        template='plotly_white',
+    )
+    fig_top_vendedores_vendas.update_layout(yaxis_title='Vendedor', xaxis_title='Vendas')
+
+
+
 
     return {
         'fig_mapa_receita': fig_mapa_receita,
         'fig_receita_mensal': fig_receita_mensal,
         'fig_receita_estados': fig_receita_estados,
         'fig_receita_categorias': fig_receita_categorias,
-        'fig_receita_vendedores': fig_receita_vendedores
+        'fig_top_vendedores_receita': fig_top_vendedores_receita,
+        'fig_top_vendedores_vendas': fig_top_vendedores_vendas,
     }

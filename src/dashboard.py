@@ -51,8 +51,7 @@ with tab3:
 
     with col1:
         st.metric('Receita', formata_numero(dados_processados['receita']))
-        st.plotly_chart(graficos['fig_receita_vendedores'], use_container_width=True)
+        st.plotly_chart(graficos['fig_top_vendedores_receita'], use_container_width=True)
     with col2:
         st.metric('Quantidade de vendas', formata_numero(dados_processados['quantidade_de_vendas']))
-
-    
+        st.plotly_chart(graficos['fig_top_vendedores_vendas'], use_container_width=True)
