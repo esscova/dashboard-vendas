@@ -76,14 +76,17 @@ with tab2:
 
 with tab3:
     input_top_vendedores = st.number_input('Top vendedores', 2, 10, 5)
+    top_vendedores = dados_processados['receita_vendedores'].nlargest(input_top_vendedores, 'sum').reset_index()
+    receita_top_vendedores = top_vendedores['sum'].sum()
+    quantidade_vendas_top_vendedores = top_vendedores['count'].sum()
     graficos_vendedores = cria_graficos(dados_processados, input_top_vendedores=input_top_vendedores)
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.metric('Receita', formata_numero(dados_processados['receita']))
+        st.metric('Receita (Top Vendedores)', formata_numero(receita_top_vendedores))
         st.plotly_chart(graficos_vendedores['fig_top_vendedores_receita'], use_container_width=True)
 
     with col2:
-        st.metric('Quantidade de vendas', formata_numero(dados_processados['quantidade_de_vendas']))
+        st.metric('Quantidade de Vendas (Top Vendedores)', formata_numero(quantidade_vendas_top_vendedores))
         st.plotly_chart(graficos_vendedores['fig_top_vendedores_vendas'], use_container_width=True)
