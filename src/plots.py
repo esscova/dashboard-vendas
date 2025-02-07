@@ -12,6 +12,12 @@ def cria_graficos(dados_processados, input_top_vendedores=None):
         color='Preço',
         projection='natural earth',
     )
+    fig_mapa_receita.update_geos(
+        lataxis_range=[-35, 5],  
+        lonaxis_range=[-75, -30],
+        showcountries=True,  
+        countrycolor="Black",
+    )
 
     fig_receita_mensal = px.line(
         dados_processados['receita_mensal'],
