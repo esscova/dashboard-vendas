@@ -4,9 +4,10 @@ import requests
 import plotly.express as px
 
 # carregando os dados
-url = 'https://labdados.com/produtos'
-response = requests.get(url)
-dados = pd.DataFrame.from_dict(response.json())
+# url = 'https://labdados.com/produtos'
+# response = requests.get(url)
+# dados = pd.DataFrame.from_dict(response.json())
+dados = pd.read_parquet('produtos.parquet')
 
 # util
 def formata_numero(valor, prefixo = ''):
@@ -64,7 +65,6 @@ fig_receita_estados = px.bar(
     x='Local da compra',
     y='Preço',
     title='Receita por estado',
-    # color_discrete_sequence=['#fcolormaps'],
     text_auto=True,
     template='plotly_white',
 )
@@ -75,7 +75,6 @@ fig_receita_categorias = px.bar(
     receita_categorias,
     text_auto=True,
     title='Receita por categoria',
-    # color_discrete_sequence=['#fcolormaps'],
     template='plotly_white',
 )
 fig_receita_categorias.update_layout(
@@ -83,19 +82,44 @@ fig_receita_categorias.update_layout(
 )
 
 # streamlit
-st.set_page_config(layout="wide")
+st.set_page_config(
+    layout="wide", 
+    page_title='Dashboard de vendas', 
+    page_icon=':bar_chart:'
+)
 
 st.title("DASHBOARD DE VENDAS :shopping_trolley:")
-col1, col2 = st.columns(2)
 
-with col1:
-    st.metric('Receita', receita)
-    st.plotly_chart(fig_mapa_receita, use_container_width=True)
-    st.plotly_chart(fig_receita_estados, use_container_width=True)
+tab1, tab2, tab3 = st.tabs(["Receita", "Quantidade de vendas", "Vendedores"])
 
-with col2:
-    st.metric('Quantidade de vendas', quantidade_de_vendas)
-    st.plotly_chart(fig_receita_mensal, use_container_width=True)
-    st.plotly_chart(fig_receita_categorias, use_container_width=True)
+with tab1:
+    col1, col2 = st.columns(2)
 
-st.dataframe(dados)
+    with col1:
+        st.metric('Receita', receita)
+        st.plotly_chart(fig_mapa_receita, use_container_width=True)
+        st.plotly_chart(fig_receita_estados, use_container_width=True)
+
+    with col2:
+        st.metric('Quantidade de vendas', quantidade_de_vendas)
+        st.plotly_chart(fig_receita_mensal, use_container_width=True)
+        st.plotly_chart(fig_receita_categorias, use_container_width=True)
+
+with tab2:
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric('Receita', receita)
+
+    with col2:
+        st.metric('Quantidade de vendas', quantidade_de_vendas)
+with tab2:
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.metric('Receita', receita)
+
+    with col2:
+        st.metric('Quantidade de vendas', quantidade_de_vendas)
+
+# st.dataframe(dados)
