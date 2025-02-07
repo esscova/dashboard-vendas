@@ -20,10 +20,13 @@ def processa_dados(df):
 
     receita_categorias = df.groupby('Categoria do Produto')[['Preço']].sum().sort_values(by='Preço', ascending=False)
 
+    receita_vendedores = df.groupby('Vendedor')['Preço'].agg(['sum', 'count'])
+
     return {
         'receita': receita,
         'quantidade_de_vendas': quantidade_de_vendas,
         'receita_dos_estados': receita_dos_estados,
         'receita_mensal': receita_mensal,
-        'receita_categorias': receita_categorias
+        'receita_categorias': receita_categorias,
+        'receita_vendedores': receita_vendedores
     }

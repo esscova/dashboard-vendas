@@ -1,9 +1,10 @@
 import plotly.express as px
 
-def cria_graficos(dados_processados):
+def cria_graficos(dados_processados, input=5):
     receita_dos_estados = dados_processados['receita_dos_estados']
     receita_mensal = dados_processados['receita_mensal']
     receita_categorias = dados_processados['receita_categorias']
+    receita_vendedores = dados_processados['receita_vendedores']
 
     fig_mapa_receita = px.scatter_geo(
         receita_dos_estados,
@@ -48,9 +49,20 @@ def cria_graficos(dados_processados):
     )
     fig_receita_categorias.update_layout(yaxis_title='Receita')
 
+    fig_receita_vendedores = px.bar(
+        receita_vendedores[['sum']].sort_values(by='sum', ascending=False).head(input),
+        x='sum',
+        y=receita_vendedores[['sum']].sort_values(by='sum', ascending=False).head(input).index,
+        title='Receita por vendedor',
+        text_auto=True,
+        template='plotly_white',
+    )
+    fig_receita_vendedores.update_layout(yaxis_title='Receita')
+
     return {
         'fig_mapa_receita': fig_mapa_receita,
         'fig_receita_mensal': fig_receita_mensal,
         'fig_receita_estados': fig_receita_estados,
-        'fig_receita_categorias': fig_receita_categorias
+        'fig_receita_categorias': fig_receita_categorias,
+        'fig_receita_vendedores': fig_receita_vendedores
     }
