@@ -37,8 +37,7 @@ else:
 # filtro vendedores
 filtro_vendedores = st.sidebar.multiselect(
     'Vendedores',
-    dados['Vendedor'].unique(),
-    default=dados['Vendedor'].unique()
+    dados['Vendedor'].unique()
 )
 
 # aplicando filtros
