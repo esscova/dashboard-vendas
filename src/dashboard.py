@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils import formata_numero
+from utils import formata_numero, card_style
 from data_processing import processa_dados, aplica_filtros
 from plots import cria_graficos
 
@@ -9,7 +9,8 @@ st.set_page_config(
     layout="wide",
     page_title='Dashboard de vendas',
     page_icon=':bar_chart:'
-    )
+)
+st.markdown(card_style, unsafe_allow_html=True)
 #...
 @st.cache_data
 def carrega_dados(caminho):
