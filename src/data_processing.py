@@ -18,11 +18,19 @@ def processa_dados(df):
 
     receita_mensal = df.set_index('Data da Compra').groupby(pd.Grouper(freq='ME'))[['Preço']].sum().reset_index()
     receita_mensal['Ano'] = receita_mensal['Data da Compra'].dt.year
-    receita_mensal['Mes'] = receita_mensal['Data da Compra'].dt.month_name(locale='pt_BR')
+    receita_mensal['Mes'] = receita_mensal['Data da Compra'].dt.month
+
+    meses_pt = {
+        1: 'Janeiro', 2: 'Fevereiro', 3: 'Março', 4: 'Abril',
+        5: 'Maio', 6: 'Junho', 7: 'Julho', 8: 'Agosto',
+        9: 'Setembro', 10: 'Outubro', 11: 'Novembro', 12: 'Dezembro'
+    }
+    receita_mensal['Mes'] = receita_mensal['Mes'].map(meses_pt)
 
     quantidade_vendas_mensal = df.set_index('Data da Compra').groupby(pd.Grouper(freq='ME')).size().reset_index(name='Quantidade de Vendas')
     quantidade_vendas_mensal['Ano'] = quantidade_vendas_mensal['Data da Compra'].dt.year
-    quantidade_vendas_mensal['Mes'] = quantidade_vendas_mensal['Data da Compra'].dt.month_name(locale='pt_BR')
+    quantidade_vendas_mensal['Mes'] = quantidade_vendas_mensal['Data da Compra'].dt.month
+    quantidade_vendas_mensal['Mes'] = quantidade_vendas_mensal['Mes'].map(meses_pt)
 
     receita_categorias = df.groupby('Categoria do Produto')[['Preço']].sum().sort_values(by='Preço', ascending=False)
     quantidade_vendas_categorias = df.groupby('Categoria do Produto').size().reset_index(name='Quantidade de Vendas')
