@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from utils import formata_numero, styles, card, contato
+from utils import styles, card, contato
 from data_processing import processa_dados, aplica_filtros
 from plots import cria_graficos
 
@@ -20,7 +20,7 @@ dados = carrega_dados('../data/produtos.parquet')
 
 # SIDEBAR
 
-# titulo 
+# filtro regioes 
 st.sidebar.title('Filtros')
 regiao = st.sidebar.selectbox(
     'Selecione uma região',

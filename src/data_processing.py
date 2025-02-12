@@ -50,8 +50,17 @@ def processa_dados(df):
     }
 
 def aplica_filtros(df, regiao, ano, vendedores):
+    estados_para_regioes = {
+        'Norte': ['AC', 'AM', 'AP', 'PA', 'RO', 'RR', 'TO'],
+        'Nordeste': ['AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE'],
+        'Sudeste': ['ES', 'MG', 'RJ', 'SP'],
+        'Sul': ['PR', 'RS', 'SC'],
+        'Centro-Oeste': ['DF', 'GO', 'MS', 'MT']
+    }
+    
     if regiao != 'Brasil':
-        df = df[df['Local da compra'].str.contains(regiao, case=False)]
+        estados = estados_para_regioes.get(regiao, [])
+        df = df[df['Local da compra'].isin(estados)]
 
     if ano is not None:
         df = df[df['Data da Compra'].dt.year == ano]
