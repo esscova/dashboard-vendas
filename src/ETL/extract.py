@@ -1,5 +1,6 @@
 import logging
 import requests
+from transform import transforma_dados
 
 logging.basicConfig(level=logging.ERROR)
 
@@ -27,6 +28,11 @@ def extrai_dados(url):
 
 
 if __name__ == '__main__':
-    url = 'https://labdados.com/produtos'
-    dados = extrai_dados(url)
-    print(dados) if dados else print('Nenhum dado retornado')
+   url = 'https://labdados.com/produtos'
+   dados = extrai_dados(url)
+	
+   if dados:
+        transforma_dados(dados)
+        print('Dados extraídos com sucesso')
+   else:
+	    print('Nenhum dado retornado')
