@@ -2,7 +2,7 @@ import pandas as pd
 
 def processa_dados(df):
     # transformacao
-    df.loc[:,'Data da Compra'] = pd.to_datetime(df['Data da Compra'], format='%d/%m/%Y')
+    df['Data da Compra'] = pd.to_datetime(df['Data da Compra'], format='%d/%m/%Y', errors='coerce')
 
     # calculos
     receita = df['Preço'].sum()
