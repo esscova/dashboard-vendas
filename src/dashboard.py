@@ -1,8 +1,11 @@
+import os
 import streamlit as st
 import pandas as pd
-from utils import styles, card, contato
-from data_processing import processa_dados, aplica_filtros
-from plots import cria_graficos
+
+from services.utils import styles, card, contato
+from services.data_processing import processa_dados, aplica_filtros
+from services.plots import cria_graficos
+from services.etl import executa_etl
 
 #...
 st.set_page_config(
@@ -14,7 +17,11 @@ st.markdown(styles, unsafe_allow_html=True)
 #...
 @st.cache_data
 def carrega_dados(caminho):
+    if not os.path.exists(caminho):
+        executa_etl()
+    
     return pd.read_parquet(caminho)
+
 
 dados = carrega_dados('../data/produtos.parquet')
 

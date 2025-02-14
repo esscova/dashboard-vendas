@@ -2,7 +2,7 @@ import pandas as pd
 
 def processa_dados(df):
     # transformacao
-    df['Data da Compra'] = pd.to_datetime(df['Data da Compra'], format='%d/%m/%Y')
+    df.loc[:,'Data da Compra'] = pd.to_datetime(df['Data da Compra'], format='%d/%m/%Y')
 
     # calculos
     receita = df['Preço'].sum()
@@ -60,12 +60,12 @@ def aplica_filtros(df, regiao, ano, vendedores):
     
     if regiao != 'Brasil':
         estados = estados_para_regioes.get(regiao, [])
-        df = df[df['Local da compra'].isin(estados)]
+        df = df.loc[df['Local da compra'].isin(estados)]
 
     if ano is not None:
-        df = df[df['Data da Compra'].dt.year == ano]
+        df = df.loc[df['Data da Compra'].dt.year == ano]
 
     if vendedores:
-        df = df[df['Vendedor'].isin(vendedores)]
+        df = df.loc[df['Vendedor'].isin(vendedores)]
 
     return df
