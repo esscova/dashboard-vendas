@@ -20,7 +20,7 @@ def carrega_dados(caminho):
     if not os.path.exists(caminho):
         executa_etl()
     
-    return pd.read_parquet(caminho)
+    return pd.read_parquet(caminho, engine='pyarrow')
 
 
 dados = carrega_dados('../data/produtos.parquet')
